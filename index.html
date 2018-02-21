@@ -1,0 +1,93 @@
+<html>
+    <header>
+        <title>Visual JS</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.2.9/cytoscape.js"></script>
+        <style>
+        #cy {
+            width: 300px;
+            height: 300px;
+            display: block;
+        }
+        #black {
+          color: black;
+        }
+        </style>
+    </header>
+    <body>
+        DETTE ER TEKST.
+        
+    </body>
+    <div id="cy">
+
+    </div>
+    Tekst efter
+
+    <script lang="javascript">
+    var cy = cytoscape({
+
+container: document.getElementById('cy'), // container to render in
+
+elements: [ // list of graph elements to start with
+  { // node a
+    data: { id: 'a', class: 'black'}
+  },
+  { // node b
+    data: { id: 'b' }
+  },
+  { // node c
+    data: { id: 'cc'}, position: {x:100, y:100}, style: {'background-color': '#ff3399'}
+  },
+  { // edge ab
+    data: { id: 'ab', source: 'a', target: 'b' }
+  },
+  { // edge bc
+    data: { id: 'bc', source: 'a', target: 'cc'}
+  }
+],
+
+style: [ // the stylesheet for the graph
+  {
+    selector: 'node',
+    style: {
+      'background-color': '#444',
+      'label': 'data(id)'
+    }
+  },
+
+  {
+    selector: 'edge',
+    style: {
+      'width': 3,
+      'line-color': '#ccc',
+      'target-arrow-color': '#ccc',
+      'target-arrow-shape': 'triangle'
+    }
+  }
+],
+
+layout: {
+  name: 'grid',
+  rows: 1
+}
+
+});
+
+cy.on('tap', function(event) {
+    console.log(event);
+    
+    var evtTarget = event.target;
+    if (evtTarget.isEdge()){
+        console.log("Edge ramt");
+    } else {
+        console.log("Normal event - ikke edge");
+    }
+});
+
+cy.on('tap', 'node', function(evt){
+  var node = evt.target;
+  console.log( 'tapped ' + node.id() );
+  cy.add({ data: { id: 'd'}, position: { x: 25, y: 75} });
+});
+
+</script>
+</html>
